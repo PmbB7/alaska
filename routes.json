@@ -630,5 +630,15 @@
     "HAWK286": "Patrol ➔ Flight",
     "HAWK298": "Patrol ➔ Flight",
     "HAWK700": "Patrol ➔ Flight",
-    "HAWKE24": "Patrol ➔ Flight"
+    "HAWKE24": "Patrol ➔ Flight",
+    "ASA249": "PVR ➔ JFK",
+    "ASA458": "PHX ➔ SEA",
+    "ASA686": "SEA ➔ SBA",
+    "ASA687": "SBA ➔ SEA",
+    "ASA733": "SEA ➔ SLC",
+    "ASA796": "SLC ➔ SEA",
+    "ASA1306": "SEA ➔ LAX",
+    "ASA1309": "LAX ➔ SEA",
+    "ASA1312": "PDX ➔ SAN",
+    "ASA1316": "SEA ➔ LAX"
 }
