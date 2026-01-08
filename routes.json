@@ -108,6 +108,8 @@
     "ASA735": "LAS ➔ SEA",
     "ASA872": "HNL ➔ ITO",
     "HAWK236": "Patrol ➔ Flight",
+    "ASA223": "SEA ➔ OGG",
+    "ASA427": "PSP ➔ PDX",
 
     "HA801": "HNL ➔ LAX", "HA802": "LAX ➔ HNL", "HA810": "HNL ➔ SEA", "HA811": "SEA ➔ HNL", 
     "HA816": "SEA ➔ OGG", "HA817": "OGG ➔ SEA", "HA821": "HNL ➔ PDX", "HA822": "PDX ➔ HNL", 
