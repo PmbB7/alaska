@@ -110,6 +110,13 @@
     "HAWK236": "Patrol ➔ Flight",
     "ASA223": "SEA ➔ OGG",
     "ASA427": "PSP ➔ PDX",
+    "ASA31": "JFK ➔ SEA",
+    "ASA280": "EWR ➔ SEA",
+    "ASA391": "YYZ ➔ SEA",
+    "ASA634": "SFO ➔ LAS",
+    "ASA1078": "HNL ➔ KOA",
+    "ASA1150": "LIH ➔ OGG",
+    "ASA1403": "CUN ➔ SEA",
 
     "HA801": "HNL ➔ LAX", "HA802": "LAX ➔ HNL", "HA810": "HNL ➔ SEA", "HA811": "SEA ➔ HNL", 
     "HA816": "SEA ➔ OGG", "HA817": "OGG ➔ SEA", "HA821": "HNL ➔ PDX", "HA822": "PDX ➔ HNL", 
