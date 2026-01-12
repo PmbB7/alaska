@@ -766,5 +766,20 @@
     "ASA9721": "BFI ➔ SEA",
     "HAF403": "HighAlt ➔ Training",
     "HAGAR91": "Tactical ➔ Flight",
-    "HARR82": "Patrol ➔ Flight"
+    "HARR82": "Patrol ➔ Flight",
+    "ASA89": "ANC ➔ ADQ",
+    "ASA690": "SNA ➔ SEA",
+    "ASA712": "SEA ➔ PHX",
+    "ASA713": "PHX ➔ SEA",
+    "ASA764": "SJC ➔ SEA",
+    "ASA765": "SEA ➔ SJC",
+    "ASA899": "HNL ➔ RAR",
+    "ASA1072": "HNL ➔ OGG",
+    "ASA7025": "ANC ➔ KTN",
+    "ASA9400": "SEA ➔ BFI",
+    "ASA9721": "BFI ➔ SEA",
+    "ASA9914": "ANC ➔ SEA",
+    "HAF403": "HighAlt ➔ Training",
+    "HAI": "Hawaiian ➔ Training",
+    "HARJA12": "Tactical ➔ Flight"
 }
