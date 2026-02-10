@@ -96,10 +96,8 @@ Before building panels, set up the variables (filters) at the top of the dashboa
 1. Go to **Dashboard Settings (Gear Icon)** > **Variables**.
 2. **Variable 1:**
 * **Name:** `Flight`
-* **Type:** Query
-* **Query:** `label_values({job="flight_tracker"}, call)`
+* **Type:** Custom
 * **Sort:** Alphabetical (asc)
-
 
 3. **Click Apply.**
 
