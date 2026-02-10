@@ -1,7 +1,3 @@
-Here is a formatted, GitHub-ready Markdown version of your guide. It is structured with clear headings, code blocks, and visual cues to make it easy for users to follow.
-
----
-
 # ✈️ Alaska Airlines Live Flight Tracker
 
 ![Dashboard Screenshot](https://github.com/PmbB7/alaska/raw/main/image001-4.png)
@@ -68,7 +64,7 @@ Open `flight_tracker.py` in any text editor. Find the section at the top marked 
 
 ```python
 # --- 1. CREDENTIALS & CONFIG ---
-LOKI_URL = "https://logs-prod3.grafana.net/loki/api/v1/push"  # From Grafana Portal
+LOKI_URL = "https://logs-prod3.grafana.net/loki/api/v1/push"   # From Grafana Portal
 GRAFANA_USER = "123456"                                      # From Grafana Portal (Number)
 GRAFANA_TOKEN = "glc_eyJ..."                                 # From Grafana Portal
 CLIENT_ID = "my_opensky_user"                                # Your OpenSky Username
@@ -104,6 +100,7 @@ Before building panels, set up the variables (filters) at the top of the dashboa
 * **Query:** `label_values({job="flight_tracker"}, call)`
 * **Sort:** Alphabetical (asc)
 
+
 3. **Click Apply.**
 
 ### 🗺️ 2. Build "Live Flight Map" (Geomap)
@@ -111,38 +108,34 @@ Before building panels, set up the variables (filters) at the top of the dashboa
 This is the centerpiece of the dashboard.
 
 1. **Add Visualization** > Select **Geomap**.
-2. **Datasource:** Enter your datasource you created
+2. **Datasource:** Select the Loki datasource you created.
 3. **Query (Loki):** Enter this LogQL query. It extracts JSON fields and aggregates the last known position over 2 minutes.
 ```logql
 sum by (call, lat, lon, origin, dest, angle, alt) (
   last_over_time({job="flight_tracker"} | json | unwrap alt [2m])
 )
-3. **Options** > Type **Instant**
-4. **Run Query**
+
 ```
 
 
-5. * **Transformations (Tab):** Add * **Group By:** Group by `call` → Calculate `Count`. All others are Calculate 'Last'
-   * **Organize fields:** call `Flight Number`, Time `Time`, angle `Ang`, dest `Destination', lat `Lat`, Lon `Lon`, origin `Origin`,and value #A `Alt`
-   * **"Convert field type"** and set these fields to **Number**: * `Lat`, `Lon`, `Ang`, `Alt`
+4. **Query Options:** Set Type to **Instant**.
+5. **Run Query**.
+6. **Transformations (Tab):**
+* **Group By:** Group by `call` → Calculate `Count`. For all other fields, select `Last` (ignore nulls).
+* **Organize fields:** Rename `call` -> `Flight Number`, `angle` -> `Ang`, `dest` -> `Destination`, `lat` -> `Lat`, `lon` -> `Lon`, `origin` -> `Origin`, `Value #A` -> `Alt`.
+* **Convert field type:** Set `Lat`, `Lon`, `Ang`, and `Alt` to **Number**.
 
 
-6. **Panel Settings (Right Sidebar):**
+7. **Panel Settings (Right Sidebar):**
 * **Map View (View):** North America
 * **Data Layer (Markers):**
-* **Data (Query: A):**
 * **Location Mode:** `Coordinates` (`Latitude`: `Lat`, `Longitude`: `Lon`)
-
-
 * **Styles:**
 * **Size:** Fixed (e.g., 10px).
 * **Symbol:** Plane icon (`img/icons/marker/plane.svg` or standard triangle).
 * **Color:** Select `Alt`.
 * **Rotation:** Select the `Ang` field. *(Crucial for flight direction!)*
 * **Text Label:** Select the `Flight Number` field. (Y offset -15)
-* **Threshold:** change colors for on ground vs in the air
-
-
 
 
 
@@ -153,27 +146,31 @@ sum by (call, lat, lon, origin, dest, angle, alt) (
 These panels count how many planes are flying vs. taxiing.
 
 1. **Add Visualization** > Select **Stat**.
-2. **Datasource:** Enter your datasource you created
-3. **Query (Loki):** Enter this LogQL query. It extracts JSON fields and aggregates the last known position over 2 minutes.
+2. **Datasource:** Select your Loki datasource.
+3. **Query (Loki):** Same as the Geomap query above.
 ```logql
 sum by (call, lat, lon, origin, dest, angle, alt) (
   last_over_time({job="flight_tracker"} | json | unwrap alt [2m])
 )
-4. **Options** > Type **Instant**
-5. **Run Query**
+
 ```
+
+
+4. **Query Options:** Set Type to **Instant**.
+5. **Run Query**.
 6. **Transformations:**
+* **Group By:** Group by `call` → Calculate `Count`. All others Calculate 'Last'.
 * **Filter by value:**
-* *For "In The Air":* Filter `alt` **Greater than 0**.
-* *For "On Ground":* Filter `alt` **Equal to 0**.
+* *For "In The Air":* Filter `Alt` **Greater than 0**.
+* *For "On Ground":* Filter `Alt` **Equal to 0**.
 
 
-* **Group By:** Group by `call` → Calculate `Count`.
 
 
-4. **Panel Settings:**
-* **Calculation:** `Last`.
-* **Color Mode:** Background (Green for Air, Yellow for Ground).
+7. **Panel Settings:**
+* **Title:** `🛬 On Ground` (or `✈️ In The Air`).
+* **Calculation:** `Count`.
+* **Color Mode:** Value.
 
 
 
@@ -182,23 +179,32 @@ sum by (call, lat, lon, origin, dest, angle, alt) (
 This lists the details of every active flight.
 
 1. **Add Visualization** > Select **Table**.
-2. **Query:**
+2. **Datasource:** Select your Loki datasource.
+3. **Query (Loki):**
 ```logql
-{job="flight_tracker"} | json
+sum by (call, lat, lon, origin, dest, angle, alt) (
+  last_over_time({job="flight_tracker"} | json | unwrap alt [2m])
+)
 
 ```
 
 
-3. **Transformations:**
-* **Organize fields:** Hide `Time`, `Line`, and raw `Content`. Show `call`, `origin`, `dest`, `speed_mph`, `alt`, `type`.
-* **Rename fields:** `call` → "Flight #", `speed_mph` → "Speed".
+4. **Query Options:** Set Type to **Instant**.
+5. **Transformations:**
+* **Group By:** Group by `call` → Calculate `Count`. All others Calculate 'Last'.
+* **Organize fields:** Select `Flight Number`, `Origin`, `Destination`, `Alt`.
 
 
-4. **Panel Settings:**
+6. **Panel Settings:**
 * **Cell Options:** Enable "Cell value mapped colors".
 * **Value Mappings:**
-* `alt` = 0 → "🛬 On Ground" (Color: Yellow)
-* `alt` > 0 → "✈️ In Flight" (Color: Green)
+* `Alt` = 0 → "🛬 On Ground" (Color: Yellow)
+* `Alt` > 0 → "✈️ In Flight" (Color: Green)
+
+
+* **Add Field Override:**
+* Select Field: "Flight Number"
+* Add property **Data links**: `https://YOUR_GRAFANA_URL/d/YOUR_DASHBOARD_UID?var-Flight=${__data.fields.call}` (This allows clicking a flight to filter the dashboard).
 
 
 
@@ -207,14 +213,22 @@ This lists the details of every active flight.
 ### 🖼️ 5. Build Aircraft Image (Optional)
 
 *Note: This requires the **Dalvany Image** plugin.*
-https://grafana.com/grafana/plugins/dalvany-image-panel/
+[Plugin Link](https://grafana.com/grafana/plugins/dalvany-image-panel/)
 
 1. **Add Visualization** > Select **Image**.
-2. **Query:** Same as the Geomap query.
-3. **Panel Settings:**
+2. **Datasource:** Select your Loki datasource.
+3. **Query (Loki):** Same query as above.
+4. **Query Options:** Set Type to **Instant**.
+5. **Transformations:**
+* **Filter by value:** Filter `call` Match 'Is equal' to variable **${Flight}**.
+* **Limit:** 1
+
+
+6. **Panel Settings:**
 * **Image URL:** Point to a public repo of aircraft images, dynamically inserting the `${type}` variable.
 * **Example:** `https://github.com/YourRepo/images/blob/main/${type}.jpg?raw=true`
 * **Metric Field:** Select `type` (e.g., B739).
+* **Suffix:** .jpg?raw=true
 
 
 
