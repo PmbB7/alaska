@@ -198,6 +198,7 @@ This lists the details of every active flight.
 ### 🖼️ 5. Build Aircraft Image (Optional)
 
 *Note: This requires the **Dalvany Image** plugin.*
+https://grafana.com/grafana/plugins/dalvany-image-panel/
 
 1. **Add Visualization** > Select **Image**.
 2. **Query:** Same as the Geomap query.
