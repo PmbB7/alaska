@@ -4,6 +4,8 @@ Here is a formatted, GitHub-ready Markdown version of your guide. It is structur
 
 # ✈️ Alaska Airlines Live Flight Tracker
 
+![Dashboard Preview](images/image001-4.png)
+
 This project builds a real-time flight tracking dashboard for **Alaska Airlines** (and Hawaiian Airlines) using **Grafana Cloud** and the **OpenSky Network API**.
 
 It visualizes live flight telemetry—including location, altitude, heading, and speed—on an interactive world map, alongside live status counters and aircraft details.
