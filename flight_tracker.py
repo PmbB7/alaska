@@ -7,12 +7,12 @@ import re
 import sys
 
 # --- 1. CREDENTIALS & CONFIG ---
-LOKI_URL = "https://logs-prod3.grafana.net/loki/api/v1/push"
-GRAFANA_USER = "12345"
-GRAFANA_TOKEN = "glc_eyJ****"
+LOKI_URL = "https://logs-prod3.grafana.net/loki/api/v1/push"   # From Grafana Portal
+GRAFANA_USER = "123456"                                      # From Grafana Portal (Number)
+GRAFANA_TOKEN = "glc_eyJ..."                                 # From Grafana Portal
+CLIENT_ID = "my_opensky_user"                                # Your OpenSky Username
+CLIENT_SECRET = "my_opensky_pass"                            # Your OpenSky Password
 
-CLIENT_ID = "username"
-CLIENT_SECRET = "clientsecret***"
 
 GITHUB_ROUTES_URL = "https://raw.githubusercontent.com/PmbB7/alaska/refs/heads/main/routes.json"
 
