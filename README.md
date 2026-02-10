@@ -104,44 +104,45 @@ Before building panels, set up the variables (filters) at the top of the dashboa
 * **Query:** `label_values({job="flight_tracker"}, call)`
 * **Sort:** Alphabetical (asc)
 
-
-3. **Variable 2:**
-* **Name:** `Origin`
-* **Type:** Query
-* **Query:** `label_values({job="flight_tracker"} | json, origin)`
-
-
-4. **Click Apply.**
+3. **Click Apply.**
 
 ### 🗺️ 2. Build "Live Flight Map" (Geomap)
 
 This is the centerpiece of the dashboard.
 
 1. **Add Visualization** > Select **Geomap**.
-2. **Query (Loki):** Enter this LogQL query. It extracts JSON fields and aggregates the last known position over 2 minutes.
+2. **Datasource:** Enter your datasource you created
+3. **Query (Loki):** Enter this LogQL query. It extracts JSON fields and aggregates the last known position over 2 minutes.
 ```logql
 sum by (call, lat, lon, origin, dest, angle, alt) (
   last_over_time({job="flight_tracker"} | json | unwrap alt [2m])
 )
-
+3. **Options** > Type **Instant**
+4. **Run Query**
 ```
 
 
-3. **Transformations (Tab):** Add **"Convert field type"** and set these fields to **Number**:
-* `lat`, `lon`, `angle`, `alt`
+5. * **Transformations (Tab):** Add * **Group By:** Group by `call` → Calculate `Count`. All others are Calculate 'Last'
+   * **Organize fields:** call `Flight Number`, Time `Time`, angle `Ang`, dest `Destination', lat `Lat`, Lon `Lon`, origin `Origin`,and value #A `Alt`
+   * **"Convert field type"** and set these fields to **Number**: * `Lat`, `Lon`, `Ang`, `Alt`
 
 
-4. **Panel Settings (Right Sidebar):**
-* **Layer 0 (Basemap):** Choose "Carto".
+6. **Panel Settings (Right Sidebar):**
+* **Map View (View):** North America
 * **Data Layer (Markers):**
-* **Location Mode:** `Coordinates` (`Latitude`: `lat`, `Longitude`: `lon`)
+* **Data (Query: A):**
+* **Location Mode:** `Coordinates` (`Latitude`: `Lat`, `Longitude`: `Lon`)
 
 
 * **Styles:**
-* **Symbol:** Plane icon (`img/icons/marker/plane.svg` or standard triangle).
-* **Rotation:** Select the `angle` field. *(Crucial for flight direction!)*
-* **Color:** Select `alt`.
 * **Size:** Fixed (e.g., 10px).
+* **Symbol:** Plane icon (`img/icons/marker/plane.svg` or standard triangle).
+* **Color:** Select `Alt`.
+* **Rotation:** Select the `Ang` field. *(Crucial for flight direction!)*
+* **Text Label:** Select the `Flight Number` field. (Y offset -15)
+* **Threshold:** change colors for on ground vs in the air
+
+
 
 
 
@@ -152,8 +153,16 @@ sum by (call, lat, lon, origin, dest, angle, alt) (
 These panels count how many planes are flying vs. taxiing.
 
 1. **Add Visualization** > Select **Stat**.
-2. **Query:** Same as the Geomap query above.
-3. **Transformations:**
+2. **Datasource:** Enter your datasource you created
+3. **Query (Loki):** Enter this LogQL query. It extracts JSON fields and aggregates the last known position over 2 minutes.
+```logql
+sum by (call, lat, lon, origin, dest, angle, alt) (
+  last_over_time({job="flight_tracker"} | json | unwrap alt [2m])
+)
+4. **Options** > Type **Instant**
+5. **Run Query**
+```
+6. **Transformations:**
 * **Filter by value:**
 * *For "In The Air":* Filter `alt` **Greater than 0**.
 * *For "On Ground":* Filter `alt` **Equal to 0**.
